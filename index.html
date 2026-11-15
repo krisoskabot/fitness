@@ -6,7 +6,10 @@
 <main><header><h1>Мой день<span style="color:var(--lime)">.</span></h1><input type="date" id="day" aria-label="Дата дневника"></header><p id="mode"></p><div id="message" role="status"></div>
 <fieldset id="panel" disabled><div id="home"><section class="hero"><small id="streak"></small><h2 id="agenda"></h2><p id="dailyQuote"></p><button type="button" id="heroAction" class="primary"></button></section><div class="stats"><section><small>Питание · ккал</small><b id="energy">0</b><small id="macros"></small></section><section><small>Тренировки · мин</small><b id="minutes">0</b><small id="sessions"></small></section></div>
 <section><h2>Моя неделя</h2><div class="grid7" id="week"></div><small>● по плану　✓ выполнено</small></section><section><h2>Забота о себе</h2><div id="habits" class="habits"></div></section>
-</div><div id="diet" hidden><section><h2>Питание</h2><p>Добавь блюдо на выбранную дату или запланируй его заранее.</p><h3>Идеи блюд</h3><div class="chips" id="ideas"></div><div id="recentMeals"></div><div id="meals"></div><details class="form"><summary>＋ Блюдо или продукт</summary><form id="food"><label>Что ела или планируешь?<input name="name" placeholder="Например, курица 150 г, рис 100 г" maxlength="180"></label><details><summary>Указать свой состав</summary><label>Продукты и порции<input name="ingredients" maxlength="600" placeholder="2 яйца, помидор 80 г, оливковое масло 5 г"></label><small>Расчёт по составу заменяет оценку по названию.</small></details><p id="estimateInfo" aria-live="polite"></p><label>Заметка<input name="note" placeholder="Порция, продукты или пара слов" maxlength="500"></label><label>Фото<input type="file" name="photo" accept="image/*"></label><div class="nums" id="nutrition"></div><label>Добавить в<select name="status"><option value="eaten">Дневник питания</option><option value="planned">Меню на выбранную дату</option></select></label><button class="primary">Сохранить блюдо</button></form></details></section>
+</div><div id="diet" hidden><section><div class="row"><h2>Вода</h2><strong id="waterTotal"></strong></div><div class="chips" id="waterQuick"></div><details><summary>Свой объём</summary><form id="waterForm"><label>Сколько выпила, мл<input name="ml" type="number" required min="1" max="5000" step="1" inputmode="numeric"></label><button>Добавить воду</button></form></details><button type="button" id="waterUndo" hidden>Отменить последнюю запись</button></section>
+<section><details id="pack"><summary>▥　По штрихкоду</summary><p>Сфотографируй полоски целиком или введи цифры под ними.</p><label>Снять штрихкод<input id="scanPhoto" type="file" accept="image/*" capture="environment"></label><form id="findCode"><label>Номер штрихкода<input id="code" inputmode="numeric" maxlength="20" autocomplete="off" required placeholder="EAN / UPC"></label><button>Найти продукт</button></form><p id="scanState" role="status"></p>
+<form id="packForm" hidden><label>Название продукта<input name="productName" required maxlength="180"></label><label>Данные на упаковке<select name="unit"><option value="g">На 100 г</option><option value="ml">На 100 мл</option></select></label><div class="nums" id="packNumbers"></div><label><span id="portionLabel">Сколько съела, г</span><input name="amount" type="number" min="0.1" max="10000" step="0.1" inputmode="decimal" required placeholder="Например, 150"></label><label>Приём пищи<select name="mealType"></select></label><strong id="portionTotal" aria-live="polite"></strong><button class="primary">Записать порцию</button></form><small>База продуктов — <a href="https://world.openfoodfacts.org/" target="_blank" rel="noopener">Open Food Facts</a>.</small></details></section>
+<section><h2>Питание</h2><p>Добавь блюдо на выбранную дату или запланируй его заранее.</p><h3>Идеи блюд</h3><div class="chips" id="ideas"></div><div id="recentMeals"></div><div id="meals"></div><details class="form"><summary>＋ Блюдо или продукт</summary><form id="food"><label>Приём пищи<select name="mealType"></select></label><label>Что ела или планируешь?<input name="name" placeholder="Например, курица 150 г, рис 100 г" maxlength="180"></label><details><summary>Указать свой состав</summary><label>Продукты и порции<input name="ingredients" maxlength="600" placeholder="2 яйца, помидор 80 г, оливковое масло 5 г"></label><small>Расчёт по составу заменяет оценку по названию.</small></details><p id="estimateInfo" aria-live="polite"></p><label>Заметка<input name="note" placeholder="Порция, продукты или пара слов" maxlength="500"></label><label>Фото<input type="file" name="photo" accept="image/*"></label><div class="nums" id="nutrition"></div><label>Добавить в<select name="status"><option value="eaten">Дневник питания</option><option value="planned">Меню на выбранную дату</option></select></label><button class="primary">Сохранить блюдо</button></form></details></section>
 </div><div id="calendar" hidden><section><div class="row"><button id="prev" aria-label="Предыдущий месяц">‹</button><h2 id="month"></h2><button id="next" aria-label="Следующий месяц">›</button></div><div id="grid" class="grid7"></div><small>● запланировано　✓ выполнено</small></section><section><h2 id="scheduleTitle"></h2><p id="scheduleText"></p><details class="form" id="planning"><summary>Изменить расписание</summary><form id="planForm"><label>Тренировка<input required maxlength="120" name="title" placeholder="Например, силовая"></label><div class="nums"><label>Время<input type="time" name="clock"></label><label>Повтор<select name="repeat"><option value="rhythm">Через день</option><option value="plan">Только эта дата</option></select></label></div><button class="primary">Сохранить план</button></form></details><div class="chips" id="planActions"></div></section><section><h2>Журнал тренировки</h2><div id="workouts"></div><details class="form"><summary>＋ Записать тренировку</summary><form id="training"><label>Вид тренировки<input name="activity" required placeholder="Силовая, ходьба, йога…" maxlength="120"></label><label>Длительность, мин<input type="number" name="duration" required min="1" max="1440"></label><div id="sets"></div><datalist id="names"></datalist><button type="button" id="addSet">＋ Подход</button><button class="primary">Сохранить тренировку</button></form></details></section></div><div id="progress" hidden><section><h2>Мои замеры</h2><label>Показатель<select id="metric"></select></label><div id="trendBox"></div></section><section><h2>Мои цели</h2><div id="goalSummary"></div><details class="form" id="goalEditor"><summary>Изменить цели</summary><form id="goalForm"><small>Заполни только нужные поля. Чтобы убрать цель, очисти поле и сохрани.</small><div class="nums" id="goalFields"></div><button class="primary">Сохранить цели</button></form></details></section><section><h2>Замер на выбранную дату</h2><form id="measureForm"><div class="nums" id="metrics"></div><button class="primary">Сохранить замеры</button></form></section><section><h2>История замеров</h2><div id="timeline"></div></section></div><nav class="nav" id="nav" aria-label="Разделы"></nav></fieldset></main>
 <script>
 const $=id=>document.getElementById(id);
@@ -51,11 +54,12 @@ async function load(){
  }
  }catch(e){$('message').textContent=e.message}
 }
-async function save(item){
+async function save(item,label){
  if(busy||loadedDay!==$('day').value)return false;busy=true;$('panel').disabled=true;$('day').disabled=true;
  try{
  if(preview){const all=JSON.parse(localStorage.getItem('moy-den-v1')||'{}');all[loadedDay]=[...(all[loadedDay]||[]).filter(x=>x.id!==item.id&&!(item.kind==='rhythm'&&item.enabled&&x.kind==='plan')),item];localStorage.setItem('moy-den-v1',JSON.stringify(all))}
- else await api('save',{day:loadedDay,item});
+ else await api('save',{day:loadedDay,item,label});
+ if(preview&&label)localStorage.setItem('label-'+item.barcode,JSON.stringify(label));
  entries=[...entries.filter(x=>x.id!==item.id),item];updateOverview(item);render();$('message').textContent='Сохранено';return true
  }catch(e){$('message').textContent=e.message;return false}finally{busy=false;$('panel').disabled=false;$('day').disabled=false}
 }
@@ -67,14 +71,9 @@ function render(){
  $('minutes').textContent=work.reduce((v,x)=>v+x.minutes,0);$('sessions').textContent='Записей: '+work.length;
  $('habits').replaceChildren(...labels.map((name,i)=>{const id='habit-'+i,on=entries.some(x=>x.id===id&&x.done);
  const b=button((on?'✓ ':'＋ ')+name,()=>save({id,kind:'habit',done:!on}));b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);return b}));
- $('meals').replaceChildren();$('workouts').replaceChildren();
- for(const x of meals){
- const r=node('div');r.className='item';if(x.photo){const img=node('img');img.src=x.photo;img.alt='Фото блюда';r.append(img)}
- const t=node('span',x.name||x.ingredients||'Фото блюда');t.append(node('small',[x.ingredients,x.note,x.kcal==null?'':x.kcal+' ккал',x.status==='planned'?'В меню':'Съедено'].filter(Boolean).join(' · ')));r.append(t);
- if(x.status==='planned')r.append(button('✓ Съела',()=>save({...x,status:'eaten'})));$('meals').append(r)
- }
+ groupedMeals(meals);waterView();$('workouts').replaceChildren();
  for(const w of work){const r=node('div');r.className='item';const t=node('span',w.name+' · '+w.minutes+' мин');for(const s of w.sets)t.append(node('small',s.name+' · '+s.kg+' кг × '+s.reps));r.append(t);$('workouts').append(r)}
- if(!meals.length)$('meals').append(node('small','На этот день блюд пока нет.'));
+
  if(!work.length)$('workouts').append(node('small','Тренировок пока нет.'));
  $('names').replaceChildren(...Object.values(historyMap).map(h=>node('option',h.sets[0].name)));
 }
@@ -92,10 +91,10 @@ async function photo(file){
 $('food').onsubmit=async e=>{e.preventDefault();const form=e.target, f=new FormData(form),day=loadedDay;
  try{const name=f.get('name').trim(),note=f.get('note').trim(),pic=await photo(f.get('photo'));if(day!==loadedDay)return;
  if(!name&&!note&&!pic&&!f.get('ingredients').trim())throw Error('Добавь название, фото или заметку.');
- const item={kind:'meal',id:crypto.randomUUID(),name,note,ingredients:f.get('ingredients').trim(),photo:pic,status:f.get('status')};nutrients.forEach(([k])=>item[k]=f.get(k)===''?null:+f.get(k));
+ const item={kind:'meal',id:crypto.randomUUID(),mealType:f.get('mealType'),name,note,ingredients:f.get('ingredients').trim(),photo:pic,status:f.get('status')};nutrients.forEach(([k])=>item[k]=f.get(k)===''?null:+f.get(k));
  if(await save(item)){form.reset();form.parentElement.open=false}
  }catch(err){$('message').textContent=err.message}};
-$('day').onchange=()=>{$('goalEditor').open=false;document.querySelectorAll('form').forEach(f=>f.reset());$('sets').replaceChildren();load()};
+$('day').onchange=()=>{invalidateProduct();$('goalEditor').open=false;document.querySelectorAll('form').forEach(f=>f.reset());$('sets').replaceChildren();load()};
 const tabs=[['home','День','◉','Мой день'],['calendar','Календарь','▦','Календарь'],['diet','Питание','◒','Питание'],['progress','Замеры','↗','Мои замеры']];
 const measurements={weight:['Вес','кг'],height:['Рост','см'],waist:['Талия','см'],hips:['Бёдра','см'],chest:['Грудь','см'],thigh:['Бедро','см'],arm:['Плечо','см']};
 const quotes=['Сегодня достаточно одного шага, который ты выберешь сама.','Отдых тоже занимает место в расписании.','Отметь то, на что сегодня нашлись силы.','Можно начать с малого и посмотреть, как пойдёт.'];
@@ -362,10 +361,119 @@ $('goalForm').onsubmit=async e=>{
   overview.goals=values;$('goalEditor').open=false;showGoals();measurementView();$('message').textContent='Цели сохранены'
  }catch(err){$('message').textContent=err.message}finally{busy=false;$('panel').disabled=false;$('day').disabled=false}
 };
+const mealNames={breakfast:'Завтрак',lunch:'Обед',snack:'Перекус',dinner:'Ужин'};
+function mealOptions(select,selected){
+ for(const [value,text] of Object.entries(mealNames)){const opt=node('option',text);opt.value=value;select.append(opt)}
+ select.value=selected||'breakfast'
+}
+mealOptions($('food').elements.mealType);mealOptions($('packForm').elements.mealType);
+function groupedMeals(meals){
+ const out=$('meals');out.replaceChildren();
+ for(const [type,label] of [...Object.entries(mealNames),['','Без приёма пищи']]){
+  const group=meals.filter(x=>(mealNames[x.mealType]?x.mealType:'')===type);
+  if(!type&&!group.length)continue;
+  const block=node('div'),heading=node('div');heading.className='row';heading.append(node('h3',label));
+  if(type)heading.append(button('＋',()=>{const form=$('food');form.parentElement.open=true;form.elements.mealType.value=type;form.elements.namedItem('name').focus()}));
+  if(heading.lastChild.tagName==='BUTTON')heading.lastChild.setAttribute('aria-label','Добавить: '+label);
+  block.append(heading);
+  for(const x of group){
+   const row=node('div');row.className='item';if(x.photo){const img=node('img');img.src=x.photo;img.alt='Фото блюда';row.append(img)}
+   const title=node('span',x.name||x.ingredients||'Фото блюда');
+   title.append(node('small',[x.portion?x.portion+' '+(x.unit==='ml'?'мл':'г'):'',x.note,x.ingredients,x.kcal!=null?x.kcal+' ккал':'',x.status==='planned'?'В меню':'Съедено'].filter(Boolean).join(' · ')));row.append(title);
+   if(x.status==='planned')row.append(button('✓ Съела',()=>save({...x,status:'eaten'})));
+   const change=node('select');change.setAttribute('aria-label','Приём пищи: '+title.firstChild.textContent);
+   if(!type){const opt=node('option','Выбрать приём пищи');opt.value='';change.append(opt)}
+   mealOptions(change,type);change.value=type;change.onchange=async()=>{if(!await save({...x,mealType:change.value}))change.value=type};row.append(change);block.append(row)
+  }
+  out.append(block)
+ }
+}
+function addWater(ml){return save({kind:'water',id:crypto.randomUUID(),ml})}
+for(const ml of [150,250,500])$('waterQuick').append(button('＋ '+ml+' мл',()=>addWater(ml)));
+$('waterForm').onsubmit=async e=>{e.preventDefault();if(await addWater(Number(e.target.ml.value)))$('waterForm').reset()};
+function waterView(){
+ const drinks=entries.filter(x=>x.kind==='water'&&x.ml>0);
+ $('waterTotal').textContent=drinks.reduce((sum,x)=>sum+x.ml,0)+' мл';
+ $('waterUndo').hidden=!drinks.length;$('waterUndo').onclick=()=>save({...drinks.at(-1),ml:0})
+}
+const packForm=$('packForm'),codeInput=$('code');
+for(const [key,label] of nutrients)field($('packNumbers'),label,key,{type:'number',min:0,max:key==='kcal'?1000:100,step:'any',required:true,inputMode:'decimal'});
+let lookupVersion=0,activeCode='';
+function invalidateProduct(){
+ lookupVersion++;activeCode='';packForm.hidden=true;$('scanState').textContent='';
+}
+codeInput.addEventListener('input',invalidateProduct);
+function validCode(code){
+ if(!/^(?:\d{8}|\d{12,14})$/.test(code))return false;
+ const sum=[...code.slice(0,-1)].reverse().reduce((n,v,i)=>n+Number(v)*(i%2?1:3),0);
+ return (10-sum%10)%10===Number(code.at(-1))
+}
+function portionValues(values,amount){
+ return values.map(v=>Math.round(v*amount/100*10)/10)
+}
+function updatePortion(){
+ $('portionLabel').textContent=packForm.unit.value==='ml'?'Сколько выпила, мл':'Сколько съела, г';
+ const values=nutrients.map(([k])=>packForm.elements[k].value);
+ const amount=Number(packForm.amount.value);
+ if(values.some(v=>v==='')||!(amount>0)){$('portionTotal').textContent='';return}
+ const [kcal,p,f,c]=portionValues(values.map(Number),amount);
+ $('portionTotal').textContent=kcal+' ккал · Б '+p+' г · Ж '+f+' г · У '+c+' г'
+}
+packForm.oninput=updatePortion;
+async function findProduct(){
+ invalidateProduct();const version=lookupVersion,code=codeInput.value.replace(/\s/g,'');
+ if(!validCode(code)){$('scanState').textContent='Проверь цифры штрихкода: номер не прошёл проверку.';return}
+ $('scanState').textContent='Ищу продукт…';let found;
+ try{found=preview?{product:JSON.parse(localStorage.getItem('label-'+code)||'null'),source:'label'}:await api('product',{day:loadedDay,code})}
+ catch(e){if(version===lookupVersion)$('scanState').textContent=e.message;return}
+ if(version!==lookupVersion)return;
+ activeCode=code;packForm.reset();const product=found.product||{};
+ packForm.productName.value=product.name||'';packForm.unit.value=product.unit||'g';
+ for(const [k] of nutrients)packForm.elements[k].value=product[k]??'';
+ $('scanState').textContent=found.product?(found.source==='label'?'Твоя сохранённая карточка.':'Карточка Open Food Facts. Сверь данные с упаковкой.'):(found.reason==='offline'?'База сейчас недоступна.':'Продукт не найден.')+(found.product?'':' Введи данные с этикетки один раз.');
+ packForm.hidden=false;updatePortion()
+}
+$('findCode').onsubmit=e=>{e.preventDefault();findProduct()};
+async function pixels(file){
+ const url=URL.createObjectURL(file);
+ try{
+  const image=new Image();image.src=url;await image.decode();
+  const ratio=Math.min(1,1600/Math.max(image.width,image.height)),canvas=node('canvas');
+  canvas.width=Math.max(1,Math.round(image.width*ratio));canvas.height=Math.max(1,Math.round(image.height*ratio));
+  const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0,canvas.width,canvas.height);
+  const rgba=ctx.getImageData(0,0,canvas.width,canvas.height).data,gray=new Uint8Array(rgba.length/4);
+  for(let i=0;i<gray.length;i++)gray[i]=(rgba[i*4]*77+rgba[i*4+1]*150+rgba[i*4+2]*29)>>8;
+  let binary='';for(let i=0;i<gray.length;i+=8192)binary+=String.fromCharCode(...gray.subarray(i,i+8192));
+  return {width:canvas.width,height:canvas.height,gray:btoa(binary)}
+ }finally{URL.revokeObjectURL(url)}
+}
+$('scanPhoto').onchange=async e=>{
+ const file=e.target.files[0];if(!file)return;
+ invalidateProduct();const version=lookupVersion;codeInput.value='';e.target.value='';
+ $('scanState').textContent='Читаю штрихкод…';
+ try{
+  if(preview)throw Error('Сканер работает в Telegram. Здесь можно ввести номер вручную.');
+  const result=await api('scan',{day:loadedDay,...await pixels(file)});if(version!==lookupVersion)return;
+  if(!result.code)throw Error('Код не прочитан. Сними полоски крупнее при хорошем свете или введи цифры.');
+  codeInput.value=result.code;await findProduct()
+ }catch(err){if(version===lookupVersion)$('scanState').textContent=err.message}
+};
+packForm.onsubmit=async e=>{
+ e.preventDefault();if(!activeCode)return;
+ const label={name:packForm.productName.value.trim(),unit:packForm.unit.value};
+ if(!label.name)return;
+ for(const [key] of nutrients)label[key]=Number(packForm.elements[key].value);
+ const portion=Number(packForm.amount.value),totals=portionValues(nutrients.map(([key])=>label[key]),portion);
+ const meal={id:crypto.randomUUID(),kind:'meal',status:'eaten',mealType:packForm.mealType.value,name:label.name,unit:label.unit,barcode:activeCode,portion};
+ nutrients.forEach(([key],i)=>meal[key]=totals[i]);
+ if(await save(meal,label)){invalidateProduct();codeInput.value='';$('pack').open=false}
+};
+
 function renderSections(){homeView();calendarView();measurementView();recentMealsView();showGoals()}
 
 if(preview){$('mode').textContent='Локальный просмотр · записи на этом устройстве';load()}
 else {const s=node('script');s.src='https://telegram.org/js/telegram-web-app.js';s.onload=()=>{tg=window.Telegram.WebApp;tg.ready();tg.expand();if(tg.isVersionAtLeast('7.7'))tg.disableVerticalSwipes();load()};s.onerror=()=>{$('message').textContent='Не удалось подключиться к Telegram. Открой дневник заново.'};document.head.append(s)}
 </script></html>
+
 
 

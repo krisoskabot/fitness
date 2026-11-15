@@ -15,6 +15,8 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import parse_qsl, urlsplit
 from urllib.request import Request, urlopen
 
+from products import decode_image, lookup, save_label, scanner_library
+
 TOKEN = os.getenv("BOT_TOKEN", "").strip()
 OWNER = os.getenv("OWNER_ID", "")
 DOMAIN = os.getenv("RAILWAY_PUBLIC_DOMAIN", "")
@@ -41,6 +43,10 @@ METRICS = {"weight", "height", "chest", "waist", "hips", "thigh", "arm"}
 
 def validate(item):
     kind = item["kind"]
+    if kind == "water" and (type(item.get("ml")) is not int or not 0 <= item["ml"] <= 5000):
+        raise ValueError()
+    if kind == "meal" and "mealType" in item and item["mealType"] not in ("breakfast","lunch","dinner","snack"):
+        raise ValueError()
     if kind in ("measure", "goals"):
         values = item["values"]
         if item["id"] != kind or not isinstance(values, dict) or (kind == "measure" and not values) or not values.keys() <= METRICS:
@@ -105,13 +111,17 @@ class Handler(BaseHTTPRequestHandler):
             return self.reply(403, b"{}")
         try:
             size = int(self.headers.get("Content-Length", "0"))
-            if not 0 < size <= 1100000:
+            if not 0 < size <= (3500000 if self.path == "/scan" else 1100000):
                 return self.reply(413, b"{}")
             entry = json.loads(self.rfile.read(size))
             day = date.fromisoformat(entry["day"]).isoformat()
             with closing(sqlite3.connect(DB, timeout=8)) as conn, conn:
                 if self.path == "/overview":
                     result = overview(conn)
+                elif self.path == "/scan":
+                    result = {"code": decode_image(entry)}
+                elif self.path == "/product":
+                    result = lookup(conn, entry["code"])
                 elif self.path == "/draft":
                     row = conn.execute("SELECT description FROM meal_drafts WHERE id=? AND expires>?",
                                        (str(entry["id"]), int(time.time()))).fetchone()
@@ -137,11 +147,13 @@ class Handler(BaseHTTPRequestHandler):
                 elif self.path == "/save":
                     item = entry["item"]
                     ident, kind = item["id"], item["kind"]
-                    if kind not in ("meal","work","habit","measure","plan","rhythm") or not isinstance(ident,str) or len(ident)>100:
+                    if kind not in ("meal","work","habit","measure","plan","rhythm","water") or not isinstance(ident,str) or len(ident)>100:
                         raise ValueError()
                     if kind == "work" and not all(isinstance(s["name"],str) for s in item["sets"]):
                         raise ValueError()
                     validate(item)
+                    if kind == "meal" and entry.get("label") is not None:
+                        save_label(conn, item["barcode"], entry["label"])
                     if kind == "rhythm" and item["enabled"]:
                         conn.execute("DELETE FROM items WHERE day=? AND kind='plan'", (day,))
                     conn.execute("INSERT INTO items VALUES (?,?,?,?) ON CONFLICT(day,id) DO UPDATE SET body=excluded.body WHERE items.kind=excluded.kind", (day,ident,kind,json.dumps(item,ensure_ascii=False)))
@@ -207,14 +219,17 @@ def bot():
 
 
 if __name__ == "__main__":
+    scanner_library()
     DB.parent.mkdir(parents=True, exist_ok=True)
     with closing(sqlite3.connect(DB)) as conn:
         conn.execute("CREATE TABLE IF NOT EXISTS items(day TEXT,id TEXT,kind TEXT,body TEXT,PRIMARY KEY(day,id))")
         conn.execute("CREATE TABLE IF NOT EXISTS meal_drafts(id TEXT PRIMARY KEY,description TEXT NOT NULL,expires INTEGER NOT NULL)")
         conn.execute("CREATE TABLE IF NOT EXISTS preferences(name TEXT PRIMARY KEY,body TEXT NOT NULL)")
+        conn.execute("CREATE TABLE IF NOT EXISTS product_labels(code TEXT PRIMARY KEY,body TEXT NOT NULL)")
         conn.execute("CREATE INDEX IF NOT EXISTS by_kind_day ON items(kind,day)")
     if TOKEN:
         threading.Thread(target=bot, daemon=True).start()
     ThreadingHTTPServer(("0.0.0.0", int(os.getenv("PORT","8080"))), Handler).serve_forever()
+
 
 
