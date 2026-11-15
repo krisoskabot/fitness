@@ -12,7 +12,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from math import isfinite
 from pathlib import Path
 from urllib.error import HTTPError, URLError
-from urllib.parse import parse_qsl
+from urllib.parse import parse_qsl, urlsplit
 from urllib.request import Request, urlopen
 
 TOKEN = os.getenv("BOT_TOKEN", "").strip()
@@ -41,9 +41,9 @@ METRICS = {"weight", "height", "chest", "waist", "hips", "thigh", "arm"}
 
 def validate(item):
     kind = item["kind"]
-    if kind == "measure":
+    if kind in ("measure", "goals"):
         values = item["values"]
-        if item["id"] != "measure" or not isinstance(values, dict) or not values or not values.keys() <= METRICS:
+        if item["id"] != kind or not isinstance(values, dict) or (kind == "measure" and not values) or not values.keys() <= METRICS:
             raise ValueError()
         if not all(type(v) in (int, float) and isfinite(v) and 0 < v <= 1000 for v in values.values()):
             raise ValueError()
@@ -78,7 +78,9 @@ def overview(conn):
             seen.add(normalized)
         if len(meals) == 6:
             break
-    return {"events": events, "workdays": workouts, "meals": meals}
+    stored = conn.execute("SELECT body FROM preferences WHERE name='goals'").fetchone()
+    return {"events": events, "workdays": workouts, "meals": meals,
+            "goals": json.loads(stored[0]) if stored else {}}
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -91,7 +93,7 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
-        if self.path == "/":
+        if urlsplit(self.path).path == "/":
             self.reply(200, PAGE.read_bytes(), "text/html; charset=utf-8")
         elif self.path == "/health":
             self.reply(200, b'{"ok":true}')
@@ -110,6 +112,16 @@ class Handler(BaseHTTPRequestHandler):
             with closing(sqlite3.connect(DB, timeout=8)) as conn, conn:
                 if self.path == "/overview":
                     result = overview(conn)
+                elif self.path == "/draft":
+                    row = conn.execute("SELECT description FROM meal_drafts WHERE id=? AND expires>?",
+                                       (str(entry["id"]), int(time.time()))).fetchone()
+                    result = {"description": row[0] if row else None}
+                elif self.path == "/goals":
+                    values = entry["values"]
+                    validate({"id": "goals", "kind": "goals", "values": values})
+                    conn.execute("INSERT INTO preferences(name,body) VALUES ('goals',?) "
+                                 "ON CONFLICT(name) DO UPDATE SET body=excluded.body", (json.dumps(values),))
+                    result = {"goals": values}
                 elif self.path == "/read":
                     rows = conn.execute("SELECT body FROM items WHERE day=? ORDER BY rowid", (day,))
                     items = [json.loads(r[0]) for r in rows]
@@ -167,6 +179,21 @@ def bot():
                             payload.update(text="Твой дневник готов.", reply_markup={"inline_keyboard":[[{
                                 "text":"Открыть мой день","web_app":{"url":"https://" + DOMAIN}}]]})
                         telegram("sendMessage", payload)
+                    elif str(chat["id"]) == OWNER and DOMAIN:
+                        description = msg.get("text", "").strip()
+                        if description and not description.startswith("/"):
+                            draft_id = str(update["update_id"])
+                            if len(description) > 600:
+                                telegram("sendMessage", {"chat_id": chat["id"], "text": "Сократи описание блюда до 600 символов."})
+                            else:
+                                with closing(sqlite3.connect(DB, timeout=8)) as conn, conn:
+                                    now = int(time.time())
+                                    conn.execute("DELETE FROM meal_drafts WHERE expires<=?", (now,))
+                                    conn.execute("INSERT OR REPLACE INTO meal_drafts VALUES (?,?,?)",
+                                                 (draft_id, description, now + 86400))
+                                telegram("sendMessage", {"chat_id": chat["id"], "text": "Открой расчёт, проверь порцию и сохрани блюдо.",
+                                    "reply_markup": {"inline_keyboard": [[{"text": "Посмотреть КБЖУ",
+                                    "web_app": {"url": f"https://{DOMAIN}/?draft={draft_id}"}}]]}})
                 offset = update["update_id"] + 1
         except HTTPError as error:
             print(f"Telegram HTTP {error.code}; retrying", flush=True)
@@ -183,8 +210,11 @@ if __name__ == "__main__":
     DB.parent.mkdir(parents=True, exist_ok=True)
     with closing(sqlite3.connect(DB)) as conn:
         conn.execute("CREATE TABLE IF NOT EXISTS items(day TEXT,id TEXT,kind TEXT,body TEXT,PRIMARY KEY(day,id))")
+        conn.execute("CREATE TABLE IF NOT EXISTS meal_drafts(id TEXT PRIMARY KEY,description TEXT NOT NULL,expires INTEGER NOT NULL)")
+        conn.execute("CREATE TABLE IF NOT EXISTS preferences(name TEXT PRIMARY KEY,body TEXT NOT NULL)")
         conn.execute("CREATE INDEX IF NOT EXISTS by_kind_day ON items(kind,day)")
     if TOKEN:
         threading.Thread(target=bot, daemon=True).start()
     ThreadingHTTPServer(("0.0.0.0", int(os.getenv("PORT","8080"))), Handler).serve_forever()
+
 

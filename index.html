@@ -6,8 +6,8 @@
 <main><header><h1>Мой день<span style="color:var(--lime)">.</span></h1><input type="date" id="day" aria-label="Дата дневника"></header><p id="mode"></p><div id="message" role="status"></div>
 <fieldset id="panel" disabled><div id="home"><section class="hero"><small id="streak"></small><h2 id="agenda"></h2><p id="dailyQuote"></p><button type="button" id="heroAction" class="primary"></button></section><div class="stats"><section><small>Питание · ккал</small><b id="energy">0</b><small id="macros"></small></section><section><small>Тренировки · мин</small><b id="minutes">0</b><small id="sessions"></small></section></div>
 <section><h2>Моя неделя</h2><div class="grid7" id="week"></div><small>● по плану　✓ выполнено</small></section><section><h2>Забота о себе</h2><div id="habits" class="habits"></div></section>
-</div><div id="diet" hidden><section><h2>Питание</h2><p>Добавь блюдо на выбранную дату или запланируй его заранее.</p><h3>Идеи блюд</h3><div class="chips" id="ideas"></div><div id="recentMeals"></div><div id="meals"></div><details class="form"><summary>＋ Блюдо или продукт</summary><form id="food"><label>Что ела или планируешь?<input name="name" placeholder="Например, омлет с овощами" maxlength="180"></label><label>Заметка<input name="note" placeholder="Порция, продукты или пара слов" maxlength="500"></label><label>Фото<input type="file" name="photo" accept="image/*"></label><div class="nums" id="nutrition"></div><label>Добавить в<select name="status"><option value="eaten">Дневник питания</option><option value="planned">Меню на выбранную дату</option></select></label><button class="primary">Сохранить блюдо</button></form></details></section>
-</div><div id="calendar" hidden><section><div class="row"><button id="prev" aria-label="Предыдущий месяц">‹</button><h2 id="month"></h2><button id="next" aria-label="Следующий месяц">›</button></div><div id="grid" class="grid7"></div><small>● запланировано　✓ выполнено</small></section><section><h2 id="scheduleTitle"></h2><p id="scheduleText"></p><details class="form" id="planning"><summary>Изменить расписание</summary><form id="planForm"><label>Тренировка<input required maxlength="120" name="title" placeholder="Например, силовая"></label><div class="nums"><label>Время<input type="time" name="clock"></label><label>Повтор<select name="repeat"><option value="rhythm">Через день</option><option value="plan">Только эта дата</option></select></label></div><button class="primary">Сохранить план</button></form></details><div class="chips" id="planActions"></div></section><section><h2>Журнал тренировки</h2><div id="workouts"></div><details class="form"><summary>＋ Записать тренировку</summary><form id="training"><label>Вид тренировки<input name="activity" required placeholder="Силовая, ходьба, йога…" maxlength="120"></label><label>Длительность, мин<input type="number" name="duration" required min="1" max="1440"></label><div id="sets"></div><datalist id="names"></datalist><button type="button" id="addSet">＋ Подход</button><button class="primary">Сохранить тренировку</button></form></details></section></div><div id="progress" hidden><section><h2>Мои замеры</h2><label>Показатель<select id="metric"></select></label><div id="trendBox"></div></section><section><h2>Замер на выбранную дату</h2><form id="measureForm"><div class="nums" id="metrics"></div><button class="primary">Сохранить замеры</button></form></section><section><h2>История замеров</h2><div id="timeline"></div></section></div><nav class="nav" id="nav" aria-label="Разделы"></nav></fieldset></main>
+</div><div id="diet" hidden><section><h2>Питание</h2><p>Добавь блюдо на выбранную дату или запланируй его заранее.</p><h3>Идеи блюд</h3><div class="chips" id="ideas"></div><div id="recentMeals"></div><div id="meals"></div><details class="form"><summary>＋ Блюдо или продукт</summary><form id="food"><label>Что ела или планируешь?<input name="name" placeholder="Например, курица 150 г, рис 100 г" maxlength="180"></label><details><summary>Указать свой состав</summary><label>Продукты и порции<input name="ingredients" maxlength="600" placeholder="2 яйца, помидор 80 г, оливковое масло 5 г"></label><small>Расчёт по составу заменяет оценку по названию.</small></details><p id="estimateInfo" aria-live="polite"></p><label>Заметка<input name="note" placeholder="Порция, продукты или пара слов" maxlength="500"></label><label>Фото<input type="file" name="photo" accept="image/*"></label><div class="nums" id="nutrition"></div><label>Добавить в<select name="status"><option value="eaten">Дневник питания</option><option value="planned">Меню на выбранную дату</option></select></label><button class="primary">Сохранить блюдо</button></form></details></section>
+</div><div id="calendar" hidden><section><div class="row"><button id="prev" aria-label="Предыдущий месяц">‹</button><h2 id="month"></h2><button id="next" aria-label="Следующий месяц">›</button></div><div id="grid" class="grid7"></div><small>● запланировано　✓ выполнено</small></section><section><h2 id="scheduleTitle"></h2><p id="scheduleText"></p><details class="form" id="planning"><summary>Изменить расписание</summary><form id="planForm"><label>Тренировка<input required maxlength="120" name="title" placeholder="Например, силовая"></label><div class="nums"><label>Время<input type="time" name="clock"></label><label>Повтор<select name="repeat"><option value="rhythm">Через день</option><option value="plan">Только эта дата</option></select></label></div><button class="primary">Сохранить план</button></form></details><div class="chips" id="planActions"></div></section><section><h2>Журнал тренировки</h2><div id="workouts"></div><details class="form"><summary>＋ Записать тренировку</summary><form id="training"><label>Вид тренировки<input name="activity" required placeholder="Силовая, ходьба, йога…" maxlength="120"></label><label>Длительность, мин<input type="number" name="duration" required min="1" max="1440"></label><div id="sets"></div><datalist id="names"></datalist><button type="button" id="addSet">＋ Подход</button><button class="primary">Сохранить тренировку</button></form></details></section></div><div id="progress" hidden><section><h2>Мои замеры</h2><label>Показатель<select id="metric"></select></label><div id="trendBox"></div></section><section><h2>Мои цели</h2><div id="goalSummary"></div><details class="form" id="goalEditor"><summary>Изменить цели</summary><form id="goalForm"><small>Заполни только нужные поля. Чтобы убрать цель, очисти поле и сохрани.</small><div class="nums" id="goalFields"></div><button class="primary">Сохранить цели</button></form></details></section><section><h2>Замер на выбранную дату</h2><form id="measureForm"><div class="nums" id="metrics"></div><button class="primary">Сохранить замеры</button></form></section><section><h2>История замеров</h2><div id="timeline"></div></section></div><nav class="nav" id="nav" aria-label="Разделы"></nav></fieldset></main>
 <script>
 const $=id=>document.getElementById(id);
 const preview=location.protocol==='file:';
@@ -38,7 +38,17 @@ async function load(){
  data={items:all[day]||[],history:h}; overview=localOverview(all);
  }else {const [record, summary]=await Promise.all([api('read',{day}),api('overview',{day})]);if(day!==$('day').value)return;data=record;overview=summary;}
  if(day!==$('day').value)return;
- entries=data.items;historyMap=data.history;loadedDay=day;render();$('message').textContent='';$('panel').disabled=false
+ entries=data.items;historyMap=data.history;loadedDay=day;render();$('message').textContent='';$('panel').disabled=false;
+ if(launchDraft&&!preview){
+  const id=launchDraft;launchDraft=null;
+  const draft=await api('draft',{day,id});showTab('diet');
+  if(draft.description){
+   const form=$('food');form.parentElement.open=true;
+   if(draft.description.length<=180)form.elements.namedItem('name').value=draft.description;
+   else form.ingredients.value=draft.description;
+   refreshEstimate();form.scrollIntoView({block:'start'})
+  }else $('message').textContent='Черновик истёк. Отправь описание блюда боту ещё раз.'
+ }
  }catch(e){$('message').textContent=e.message}
 }
 async function save(item){
@@ -60,7 +70,7 @@ function render(){
  $('meals').replaceChildren();$('workouts').replaceChildren();
  for(const x of meals){
  const r=node('div');r.className='item';if(x.photo){const img=node('img');img.src=x.photo;img.alt='Фото блюда';r.append(img)}
- const t=node('span',x.name||'Фото блюда');t.append(node('small',[x.note,x.kcal==null?'':x.kcal+' ккал',x.status==='planned'?'В меню':'Съедено'].filter(Boolean).join(' · ')));r.append(t);
+ const t=node('span',x.name||x.ingredients||'Фото блюда');t.append(node('small',[x.ingredients,x.note,x.kcal==null?'':x.kcal+' ккал',x.status==='planned'?'В меню':'Съедено'].filter(Boolean).join(' · ')));r.append(t);
  if(x.status==='planned')r.append(button('✓ Съела',()=>save({...x,status:'eaten'})));$('meals').append(r)
  }
  for(const w of work){const r=node('div');r.className='item';const t=node('span',w.name+' · '+w.minutes+' мин');for(const s of w.sets)t.append(node('small',s.name+' · '+s.kg+' кг × '+s.reps));r.append(t);$('workouts').append(r)}
@@ -81,11 +91,11 @@ async function photo(file){
 }
 $('food').onsubmit=async e=>{e.preventDefault();const form=e.target, f=new FormData(form),day=loadedDay;
  try{const name=f.get('name').trim(),note=f.get('note').trim(),pic=await photo(f.get('photo'));if(day!==loadedDay)return;
- if(!name&&!note&&!pic)throw Error('Добавь название, фото или заметку.');
- const item={kind:'meal',id:crypto.randomUUID(),name,note,photo:pic,status:f.get('status')};nutrients.forEach(([k])=>item[k]=f.get(k)===''?null:+f.get(k));
+ if(!name&&!note&&!pic&&!f.get('ingredients').trim())throw Error('Добавь название, фото или заметку.');
+ const item={kind:'meal',id:crypto.randomUUID(),name,note,ingredients:f.get('ingredients').trim(),photo:pic,status:f.get('status')};nutrients.forEach(([k])=>item[k]=f.get(k)===''?null:+f.get(k));
  if(await save(item)){form.reset();form.parentElement.open=false}
  }catch(err){$('message').textContent=err.message}};
-$('day').onchange=()=>{document.querySelectorAll('form').forEach(f=>f.reset());$('sets').replaceChildren();load()};
+$('day').onchange=()=>{$('goalEditor').open=false;document.querySelectorAll('form').forEach(f=>f.reset());$('sets').replaceChildren();load()};
 const tabs=[['home','День','◉','Мой день'],['calendar','Календарь','▦','Календарь'],['diet','Питание','◒','Питание'],['progress','Замеры','↗','Мои замеры']];
 const measurements={weight:['Вес','кг'],height:['Рост','см'],waist:['Талия','см'],hips:['Бёдра','см'],chest:['Грудь','см'],thigh:['Бедро','см'],arm:['Плечо','см']};
 const quotes=['Сегодня достаточно одного шага, который ты выберешь сама.','Отдых тоже занимает место в расписании.','Отметь то, на что сегодня нашлись силы.','Можно начать с малого и посмотреть, как пойдёт.'];
@@ -95,6 +105,7 @@ const iso=t=>new Date(t).toISOString().slice(0,10);
 const DAY=86400000;
 function dateLabel(day,opts={day:'numeric',month:'short',year:'numeric'}){return new Intl.DateTimeFormat('ru',{...opts,timeZone:'UTC'}).format(stamp(day))}
 let tab='home';
+let launchDraft=new URLSearchParams(location.search).get('draft');
 function showTab(id){
  tab=id;
  for(const [key,label,icon,title] of tabs){
@@ -115,7 +126,7 @@ function localOverview(all){
   for(const item of items)if(['rhythm','plan','measure'].includes(item.kind))events.push({...item,day})
  }
  const meals=[];for(const day of Object.keys(all).sort().reverse())for(const e of all[day].slice().reverse())if(e.kind==='meal'&&e.name&&meals.length<6&&!meals.some(x=>x.name===e.name))meals.push(e);
- return {events,workdays,meals}
+ return {events,workdays,meals,goals:JSON.parse(localStorage.getItem('moy-den-goals')||'{}')}
 }
 function updateOverview(item){
  if(item.kind==='meal'&&item.name)overview.meals=[item,...(overview.meals||[]).filter(x=>x.name!==item.name)].slice(0,6);
@@ -192,6 +203,7 @@ function homeView(){
 }
 for(const [key,[title,unit]] of Object.entries(measurements)){
  const option=node('option',title);option.value=key;$('metric').append(option);
+ field($('goalFields'),title+', '+unit,key,{type:'number',step:'0.1',min:0.1,max:1000,placeholder:'Без цели'});
  field($('metrics'),title+', '+unit,key,{type:'number',step:'0.1',min:0.1,max:1000,placeholder:'—'})
 }
 function measurementView(){
@@ -208,6 +220,11 @@ function measurementView(){
    recent.forEach(e=>{const bar=node('i');bar.style.height=(high===low?50:15+85*(e.values[key]-low)/(high-low))+'%';bar.title=dateLabel(e.day)+' · '+e.values[key]+' '+unit;chart.append(bar)});box.append(chart,node('small',dateLabel(recent[0].day)+' — '+dateLabel(last.day)))
   }
  }
+ const target=overview.goals?.[key];
+ if(target!=null){
+  const latest=points.at(-1)?.values[key],gap=latest==null?null:+Math.abs(latest-target).toFixed(1);
+  box.append(node('p','Цель: '+target+' '+unit+(gap===null?'':gap===0?' · цель достигнута':' · разница '+gap+' '+unit)))
+ }
  const current=rows.find(e=>e.day===loadedDay);
  for(const k of Object.keys(measurements))$('measureForm').elements[k].value=current?.values[k]??'';
  const timeline=$('timeline');timeline.replaceChildren();
@@ -222,19 +239,133 @@ $('measureForm').onsubmit=async e=>{
  await save({id:'measure',kind:'measure',values})
 };
 for(const dish of ['Йогурт с ягодами','Омлет с овощами','Курица с рисом','Творог с фруктами']){
- $('ideas').append(button(dish,()=>{const f=$('food');f.reset();f.parentElement.open=true;f.elements.namedItem("name").value=dish;f.elements.note.focus()}))
+ $('ideas').append(button(dish,()=>{const f=$('food');f.reset();f.parentElement.open=true;f.elements.namedItem("name").value=dish;refreshEstimate();f.elements.note.focus()}))
 }
+// Typical portions and approximate nutritional values per 100 g of edible food.
+// [display name, aliases, default grams, kcal, protein, fat, carbohydrates, grams per piece]
+const foods=[
+ ['Яйцо','яйцо|яйца|яиц|яичко|яйца вареные|вареное яйцо',50,143,12.6,9.5,0.7,50],
+ ['Грудка куриная, готовая','куриная грудка|куриной грудки|куриную грудку|грудка|курица|курицы|курицу|куриное филе',150,165,31,3.6,0],
+ ['Рис, варёный','рис|риса|рисом|вареный рис|рис вареный|отварной рис|готовый рис',150,130,2.7,0.3,28.2],
+ ['Рис сухой','рис сухой|сухой рис|сухого риса',60,365,7.1,0.7,80],
+ ['Овсяные хлопья, сухие','хлопья овсяные|овсяные хлопья|овсяных хлопьев|сухая овсянка',40,379,13.2,6.5,67.7],
+ ['Овсянка на воде','овсянка|овсянку|овсянки|каша овсяная|овсянка на воде',200,71,2.5,1.5,12],
+ ['Гречка варёная','гречка|гречки|гречку|гречка вареная',150,92,3.4,0.6,19.9],
+ ['Макароны, готовые','макароны|макарон|паста|пасту|спагетти',150,158,5.8,0.9,30.9],
+ ['Картофель отварной','картофель|картошка|картошку|картофеля|картошка вареная',150,87,1.9,0.1,20.1],
+ ['Творог 5%','творог|творога|творог 5%|творога 5%',150,121,17,5,1.8],
+ ['Йогурт греческий 2%','йогурт|йогурта|греческий йогурт|греческого йогурта|йогурт 2%',150,73,10,2,3.9],
+ ['Молоко 2,5%','молоко|молока|молоком|молоко 2.5%',200,52,2.8,2.5,4.7],
+ ['Кефир 2,5%','кефир|кефира|кефир 2.5%',200,53,3,2.5,4],
+ ['Банан без кожуры','банан|банана|бананы|бананов|бананом',118,89,1.1,0.3,22.8,118],
+ ['Яблоко','яблоко|яблока|яблок|яблоком',170,52,0.3,0.2,13.8,170],
+ ['Клубника','клубника|клубники|клубнику|клубникой',100,32,0.7,0.3,7.7],
+ ['Черника','черника|черники|черникой',100,57,0.7,0.3,14.5],
+ ['Помидор','помидор|помидора|помидоры|помидоров|помидором|томат|томаты',100,18,0.9,0.2,3.9,100],
+ ['Огурец','огурец|огурца|огурцы|огурцов|огурцом',100,15,0.7,0.1,3.6,100],
+ ['Авокадо','авокадо',100,160,2,14.7,8.5],
+ ['Капуста квашеная','квашеная капуста|квашеной капусты|капуста квашеная',100,19,0.9,0.1,4.3],
+ ['Тунец в собственном соку','тунец|тунца|тунец в собственном соку',100,116,25.5,0.8,0],
+ ['Лосось, готовый','лосось|лосося|семга|семги',130,206,22.1,12.4,0],
+ ['Сыр полутвёрдый','сыр|сыра|сыром',30,350,25,27,1],
+ ['Хлеб пшеничный','хлеб|хлеба|белый хлеб|тост',30,265,9,3.2,49,30],
+ ['Масло растительное','растительное масло|оливковое масло|оливкового масла|растительного масла|масло оливковое|подсолнечное масло',5,884,0,100,0],
+ ['Масло сливочное','сливочное масло|сливочного масла|масло сливочное',5,717,0.9,81.1,0.1],
+ ['Мёд','мед|меда|медом',10,304,0.3,0,82.4],
+ ['Сахар','сахар|сахара|сахаром',5,387,0,0,100]
+];
+const recipes=[
+ ['Курица с рисом','курица с рисом|рис с курицей|куриная грудка с рисом',[['курица',120],['рис',150]]],
+ ['Омлет с овощами','омлет с овощами|овощной омлет',[['яйцо',100],['молоко',30],['помидор',80],['оливковое масло',5]]],
+ ['Омлет','омлет|омлета',[['яйцо',100],['молоко',30],['оливковое масло',5]]],
+ ['Йогурт с ягодами','йогурт с ягодами',[['йогурт',150],['клубника',50]]],
+ ['Творог с фруктами','творог с фруктами',[['творог',150],['банан',70]]]
+];
+const products=new Map();
+for(const [label,aliases,portion,...numbers] of foods){
+ const [kcal,p,f,c,piece]=numbers;
+ for(const alias of aliases.split('|'))products.set(alias,{label,portion,piece,values:[kcal,p,f,c]})
+}
+for(const [label,aliases,parts] of recipes){
+ const portion=parts.reduce((n,[,g])=>n+g,0);
+ const values=[0,1,2,3].map(i=>parts.reduce((n,[k,g])=>n+products.get(k).values[i]*g,0)/portion);
+ const recipe=parts.map(([k,g])=>products.get(k).label+' '+g+' г').join(', ');
+ for(const alias of aliases.split('|'))products.set(alias,{label,portion,values,recipe})
+}
+function parsePortion(raw){
+ const quantity=/(\d+(?:\.\d+)?)\s*(килограмм(?:а|ов)?|кг|грамм(?:а|ов)?|гр\.?|г|штук(?:а|и)?|шт\.?)(?=\s|$)/u;
+ const match=raw.match(quantity);let name=raw,grams,count;
+ if(match){name=raw.replace(match[0],'').trim();const n=Number(match[1]),unit=match[2];if(unit.startsWith('ш'))count=n;else grams=n*(unit==='кг'||unit.startsWith('килограмм')?1000:1)}
+ else {
+  const each=raw.match(/^(\d+(?:\.\d+)?)\s+(.+)$/u);
+  if(each){count=Number(each[1]);name=each[2]}
+ }
+ const food=products.get(name);if(!food)return null;
+ if(count!==undefined){if(!food.piece)return null;grams=count*food.piece}
+ const assumed=grams===undefined;grams=grams??food.portion;
+ if(!(grams>0&&grams<=10000))return null;
+ return {food,grams,assumed}
+}
+function estimateMeal(input){
+ const raw=input.toLowerCase().replace(/ё/g,'е').replace(/(\d),(?=\d)/g,'$1.').replace(/[^\S\n]+/g,' ').trim();
+ if(!raw)return null;
+ const parts=raw.split(/\s*(?:,|;|\+|\n)\s*|\s+и\s+/u).flatMap(part=>parsePortion(part)?[part]:part.split(/\s+с\s+/u));
+ const items=parts.map(parsePortion);
+ const unknown=parts.filter((_,i)=>!items[i]);
+ if(unknown.length)return {unknown};
+ const totals=[0,1,2,3].map(i=>Math.round(items.reduce((n,x)=>n+x.grams*x.food.values[i]/100,0)*10)/10);
+ return {totals,items}
+}
+
+const mealForm=$('food');
+const titleInput=mealForm.elements.namedItem('name');
+let calculated=false;
+function refreshEstimate(){
+ const result=estimateMeal(mealForm.ingredients.value.trim()||titleInput.value);
+ const info=$('estimateInfo');
+ if(!result||result.unknown){
+  if(calculated)for(const [k] of nutrients)mealForm.elements[k].value='';
+  calculated=false;
+  info.textContent=result?'Не распознано: '+result.unknown.join(', ')+'. Укажи продукты по отдельности с весом или введи КБЖУ вручную.':'';
+  return
+ }
+ nutrients.forEach(([k],i)=>mealForm.elements[k].value=result.totals[i]);
+ calculated=true;
+ info.textContent='Примерная оценка: '+result.items.map(({food,grams,assumed})=>food.label+' — '+grams+' г'+(assumed?' (типовая порция)':'')+(food.recipe?'. Базовый рецепт: '+food.recipe:'')).join('; ')+'. Значения ниже можно исправить.'
+}
+titleInput.addEventListener('input',refreshEstimate);mealForm.ingredients.addEventListener('input',refreshEstimate);
+mealForm.addEventListener('reset',()=>{calculated=false;$('estimateInfo').textContent=''});
 function recentMealsView(){
  const box=$('recentMeals');box.replaceChildren();if(!overview.meals?.length)return;
  box.append(node('h3','Повторить своё блюдо'));const chips=node('div');chips.className='chips';box.append(chips);
  for(const meal of overview.meals)chips.append(button(meal.name,()=>{
   const f=$('food');f.reset();f.parentElement.open=true;f.elements.namedItem('name').value=meal.name;
-  nutrients.forEach(([key])=>f.elements[key].value=meal[key]??'');f.elements.note.focus()
+  nutrients.forEach(([key])=>f.elements[key].value=meal[key]??'');calculated=true;f.elements.note.focus()
  }))
 }
-function renderSections(){homeView();calendarView();measurementView();recentMealsView()}
+function showGoals(){
+ const goals=overview.goals||{},summary=$('goalSummary');summary.replaceChildren();
+ for(const [key,[title,unit]] of Object.entries(measurements)){
+  if(!$('goalEditor').open)$('goalForm').elements[key].value=goals[key]??'';
+  if(goals[key]!=null)summary.append(node('p',title+' · '+goals[key]+' '+unit))
+ }
+ if(!Object.keys(goals).length)summary.append(node('small','Можно задать свой ориентир для веса или обхватов.'))
+}
+$('goalEditor').ontoggle=()=>{if($('goalEditor').open){for(const key of Object.keys(measurements))$('goalForm').elements[key].value=overview.goals?.[key]??''}};
+$('goalForm').onsubmit=async e=>{
+ e.preventDefault();if(busy)return;
+ const values={};for(const key of Object.keys(measurements)){const v=e.target.elements[key].value;if(v!=='')values[key]=Number(v)}
+ busy=true;$('panel').disabled=true;$('day').disabled=true;
+ try{
+  if(preview)localStorage.setItem('moy-den-goals',JSON.stringify(values));
+  else await api('goals',{day:loadedDay,values});
+  overview.goals=values;$('goalEditor').open=false;showGoals();measurementView();$('message').textContent='Цели сохранены'
+ }catch(err){$('message').textContent=err.message}finally{busy=false;$('panel').disabled=false;$('day').disabled=false}
+};
+function renderSections(){homeView();calendarView();measurementView();recentMealsView();showGoals()}
 
 if(preview){$('mode').textContent='Локальный просмотр · записи на этом устройстве';load()}
 else {const s=node('script');s.src='https://telegram.org/js/telegram-web-app.js';s.onload=()=>{tg=window.Telegram.WebApp;tg.ready();tg.expand();if(tg.isVersionAtLeast('7.7'))tg.disableVerticalSwipes();load()};s.onerror=()=>{$('message').textContent='Не удалось подключиться к Telegram. Открой дневник заново.'};document.head.append(s)}
 </script></html>
+
 
