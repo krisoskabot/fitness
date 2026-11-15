@@ -9,10 +9,11 @@ from contextlib import closing
 from datetime import date
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.error import HTTPError, URLError
 from urllib.parse import parse_qsl
 from urllib.request import Request, urlopen
 
-TOKEN = os.getenv("BOT_TOKEN", "")
+TOKEN = os.getenv("BOT_TOKEN", "").strip()
 OWNER = os.getenv("OWNER_ID", "")
 DOMAIN = os.getenv("RAILWAY_PUBLIC_DOMAIN", "")
 DB = Path(os.getenv("DATA_DIR", "/data")) / "diary.sqlite"
@@ -97,8 +98,13 @@ def telegram(method, payload):
 
 def bot():
     offset = 0
+    connected = False
     while True:
         try:
+            if not connected:
+                telegram("getMe", {})
+                print("Telegram credentials accepted", flush=True)
+                connected = True
             for update in telegram("getUpdates", {"timeout":25,"offset":offset}):
                 msg = update.get("message", {})
                 chat = msg.get("chat", {})
@@ -110,8 +116,14 @@ def bot():
                                 "text":"Открыть мой день","web_app":{"url":"https://" + DOMAIN}}]]})
                         telegram("sendMessage", payload)
                 offset = update["update_id"] + 1
-        except Exception:
-            print("Telegram temporarily unavailable; retrying", flush=True)
+        except HTTPError as error:
+            print(f"Telegram HTTP {error.code}; retrying", flush=True)
+            time.sleep(5)
+        except URLError as error:
+            print(f"Telegram network error: {type(error.reason).__name__}", flush=True)
+            time.sleep(5)
+        except Exception as error:
+            print(f"Telegram error: {type(error).__name__}", flush=True)
             time.sleep(5)
 
 
