@@ -1,0 +1,87 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Мой день</title>
+<style>
+:root{color-scheme:dark;--lime:#cefa62;--bg:#101210;--panel:#1a1d19;--line:#373c32;--muted:#b4b9ad}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f4f5ee;font:16px Inter,system-ui,sans-serif}main{max-width:650px;margin:auto;padding:28px 18px 80px}header,.row,.item{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}h1{font-size:clamp(32px,8vw,54px);letter-spacing:-.06em;margin:0}h2{font-size:21px;letter-spacing:-.035em;margin:0 0 14px}section,details.form{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:14px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stats section:first-child{background:var(--lime);color:#162006}.stats b{display:block;font-size:40px;letter-spacing:-.06em}.stats small{font-size:14px}.sub,small,p{color:var(--muted)}.stats section:first-child small{color:#354420}button,summary{cursor:pointer}button,input,select{font:inherit;border-radius:12px;border:1px solid var(--line);padding:10px;background:#242820;color:#fff;max-width:100%}button{min-height:44px}button.active,.primary{background:var(--lime);color:#152005}.item{padding:10px 0;border-top:1px solid var(--line);overflow-wrap:anywhere}.item img{width:78px;height:68px;object-fit:cover;border-radius:8px}.item span{flex:1;min-width:115px}.item small{display:block}form{display:grid;gap:12px;margin-top:15px}label{display:grid;gap:5px;font-size:14px;color:var(--muted)}input,select{width:100%}header input{width:auto}.nums,.set{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.set{border-top:1px solid var(--line);padding-top:10px}.wide,.last{grid-column:1/-1}.last{color:var(--lime);font-size:14px}summary{font-weight:650;padding:4px}.habits{display:flex;gap:6px;flex-wrap:wrap}#message{position:sticky;top:4px;z-index:2;background:#383c2b;border-radius:10px;padding:8px}#message:empty{display:none}button:disabled,fieldset:disabled{opacity:.5}fieldset{border:0;padding:0;margin:0;min-width:0}#mode{font-size:13px;margin:4px 0 14px}</style>
+<main><header><h1>Мой день<span style="color:var(--lime)">.</span></h1><input type="date" id="day" aria-label="Дата дневника"></header><p id="mode"></p><div id="message" role="status"></div>
+<fieldset id="panel" disabled><div class="stats"><section><small>Питание · ккал</small><b id="energy">0</b><small id="macros"></small></section><section><small>Тренировки · мин</small><b id="minutes">0</b><small id="sessions"></small></section></div>
+<section><h2>Забота о себе</h2><div id="habits" class="habits"></div></section>
+<section><h2>Питание</h2><div id="meals"></div><details class="form"><summary>＋ Блюдо или продукт</summary><form id="food"><label>Что ела или планируешь?<input name="name" placeholder="Например, омлет с овощами" maxlength="180"></label><label>Заметка<input name="note" placeholder="Порция, продукты или пара слов" maxlength="500"></label><label>Фото<input type="file" name="photo" accept="image/*"></label><div class="nums" id="nutrition"></div><label>Добавить в<select name="status"><option value="eaten">Дневник питания</option><option value="planned">Меню на выбранную дату</option></select></label><button class="primary">Сохранить блюдо</button></form></details></section>
+<section><h2>Тренировки</h2><div id="workouts"></div><details class="form"><summary>＋ Записать тренировку</summary><form id="training"><label>Вид тренировки<input name="activity" required placeholder="Силовая, ходьба, йога…" maxlength="120"></label><label>Длительность, мин<input type="number" name="duration" required min="1" max="1440"></label><div id="sets"></div><datalist id="names"></datalist><button type="button" id="addSet">＋ Подход</button><button class="primary">Сохранить тренировку</button></form></details></section></fieldset></main>
+<script>
+const $=id=>document.getElementById(id);
+const preview=location.protocol==='file:';
+const labels=['Растяжка','Медитация','Уход'];
+const nutrients=[['kcal','Ккал'],['p','Белки, г'],['f','Жиры, г'],['c','Углеводы, г']];
+let entries=[],historyMap={},tg,loadedDay='',busy=false;
+function node(tag,value){const n=document.createElement(tag);if(value!==undefined)n.textContent=value;return n}
+function button(text,action){const b=node('button',text);b.type='button';b.onclick=action;return b}
+function field(parent,label,name,props){const l=node('label',label),i=node('input');Object.assign(i,{name},props);l.append(i);parent.append(l);return i}
+nutrients.forEach(([key,label])=>field($('nutrition'),label,key,{type:'number',step:'0.1',min:0,max:10000,placeholder:'—'}));
+$('day').value=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Moscow',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+async function api(route,body){
+ const r=await fetch('/'+route,{method:'POST',headers:{'Content-Type':'application/json','X-Telegram-Init':tg?.initData||''},body:JSON.stringify(body)});
+ if(!r.ok)throw Error(r.status===403?'Открой дневник кнопкой в личном чате с ботом.':'Не удалось сохранить или загрузить данные. Попробуй ещё раз.');
+ return r.json()
+}
+async function load(){
+ const day=$('day').value;if(!day)return;
+ $('panel').disabled=true;
+ try{
+ let data;
+ if(preview){
+ const all=JSON.parse(localStorage.getItem('moy-den-v1')||'{}'),h={};
+ for(const d of Object.keys(all).filter(d=>d<day).sort().reverse())
+ for(const w of all[d].filter(x=>x.kind==='work'))for(const s of w.sets){
+ const k=s.name.trim().toLowerCase();if(!h[k])h[k]={day:d,sets:[]};if(h[k].day===d)h[k].sets.push(s)}
+ data={items:all[day]||[],history:h};
+ }else data=await api('read',{day});
+ if(day!==$('day').value)return;
+ entries=data.items;historyMap=data.history;loadedDay=day;render();$('message').textContent='';$('panel').disabled=false
+ }catch(e){$('message').textContent=e.message}
+}
+async function save(item){
+ if(busy||loadedDay!==$('day').value)return false;busy=true;$('panel').disabled=true;$('day').disabled=true;
+ try{
+ if(preview){const all=JSON.parse(localStorage.getItem('moy-den-v1')||'{}');all[loadedDay]=[...(all[loadedDay]||[]).filter(x=>x.id!==item.id),item];localStorage.setItem('moy-den-v1',JSON.stringify(all))}
+ else await api('save',{day:loadedDay,item});
+ entries=[...entries.filter(x=>x.id!==item.id),item];render();$('message').textContent='Сохранено';return true
+ }catch(e){$('message').textContent=e.message;return false}finally{busy=false;$('panel').disabled=false;$('day').disabled=false}
+}
+function render(){
+ const meals=entries.filter(x=>x.kind==='meal'),work=entries.filter(x=>x.kind==='work'),eaten=meals.filter(x=>x.status==='eaten');
+ const sum=k=>Math.round(eaten.reduce((v,x)=>v+Number(x[k]||0),0)*10)/10;
+ $('energy').textContent=sum('kcal');$('macros').textContent='Б '+sum('p')+' · Ж '+sum('f')+' · У '+sum('c')+' г';
+ $('minutes').textContent=work.reduce((v,x)=>v+x.minutes,0);$('sessions').textContent='Записей: '+work.length;
+ $('habits').replaceChildren(...labels.map((name,i)=>{const id='habit-'+i,on=entries.some(x=>x.id===id&&x.done);
+ const b=button((on?'✓ ':'＋ ')+name,()=>save({id,kind:'habit',done:!on}));b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);return b}));
+ $('meals').replaceChildren();$('workouts').replaceChildren();
+ for(const x of meals){
+ const r=node('div');r.className='item';if(x.photo){const img=node('img');img.src=x.photo;img.alt='Фото блюда';r.append(img)}
+ const t=node('span',x.name||'Фото блюда');t.append(node('small',[x.note,x.kcal==null?'':x.kcal+' ккал',x.status==='planned'?'В меню':'Съедено'].filter(Boolean).join(' · ')));r.append(t);
+ if(x.status==='planned')r.append(button('✓ Съела',()=>save({...x,status:'eaten'})));$('meals').append(r)
+ }
+ for(const w of work){const r=node('div');r.className='item';const t=node('span',w.name+' · '+w.minutes+' мин');for(const s of w.sets)t.append(node('small',s.name+' · '+s.kg+' кг × '+s.reps));r.append(t);$('workouts').append(r)}
+ if(!meals.length)$('meals').append(node('small','На этот день блюд пока нет.'));
+ if(!work.length)$('workouts').append(node('small','Тренировок пока нет.'));
+ $('names').replaceChildren(...Object.values(historyMap).map(h=>node('option',h.sets[0].name)));
+}
+$('addSet').onclick=()=>{
+ const r=node('div');r.className='set';const name=field(r,'Упражнение','exercise',{required:true,maxLength:100});name.setAttribute('list','names');name.parentElement.className='wide';
+ const hint=node('div');hint.className='last';r.append(hint);name.oninput=()=>{const h=historyMap[name.value.trim().toLowerCase()];hint.textContent=h?'Прошлый раз · '+h.day+' · '+h.sets.map(s=>s.kg+' кг × '+s.reps).join(', '):''};
+ field(r,'Вес, кг','kg',{type:'number',min:0,max:1000,step:'0.1',required:true});field(r,'Повторы','reps',{type:'number',min:1,max:999,required:true});r.append(button('Убрать подход',()=>r.remove()));$('sets').append(r);name.focus()
+};
+$('training').onsubmit=async e=>{e.preventDefault();const form=e.target;const sets=[...$('sets').children].map(r=>({name:r.querySelector('[name=exercise]').value.trim(),kg:+r.querySelector('[name=kg]').value,reps:+r.querySelector('[name=reps]').value}));
+ if(await save({kind:'work',id:crypto.randomUUID(),name:form.activity.value.trim(),minutes:+form.duration.value,sets})){form.reset();$('sets').replaceChildren();form.parentElement.open=false}};
+async function photo(file){
+ if(!file?.size)return '';const url=URL.createObjectURL(file);
+ try{const img=new Image();img.src=url;await img.decode();const scale=Math.min(1,720/Math.max(img.width,img.height));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(img.width*scale));c.height=Math.max(1,Math.round(img.height*scale));c.getContext('2d').drawImage(img,0,0,c.width,c.height);return c.toDataURL('image/jpeg',.72)}finally{URL.revokeObjectURL(url)}
+}
+$('food').onsubmit=async e=>{e.preventDefault();const form=e.target, f=new FormData(form),day=loadedDay;
+ try{const name=f.get('name').trim(),note=f.get('note').trim(),pic=await photo(f.get('photo'));if(day!==loadedDay)return;
+ if(!name&&!note&&!pic)throw Error('Добавь название, фото или заметку.');
+ const item={kind:'meal',id:crypto.randomUUID(),name,note,photo:pic,status:f.get('status')};nutrients.forEach(([k])=>item[k]=f.get(k)===''?null:+f.get(k));
+ if(await save(item)){form.reset();form.parentElement.open=false}
+ }catch(err){$('message').textContent=err.message}};
+$('day').onchange=()=>{document.querySelectorAll('form').forEach(f=>f.reset());$('sets').replaceChildren();load()};
+if(preview){$('mode').textContent='Локальный просмотр · записи на этом устройстве';load()}
+else {const s=node('script');s.src='https://telegram.org/js/telegram-web-app.js';s.onload=()=>{tg=window.Telegram.WebApp;tg.ready();tg.expand();if(tg.isVersionAtLeast('7.7'))tg.disableVerticalSwipes();load()};s.onerror=()=>{$('message').textContent='Не удалось подключиться к Telegram. Открой дневник заново.'};document.head.append(s)}
+</script></html>
