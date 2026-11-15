@@ -1,16 +1,19 @@
 <!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Мой день</title>
 <style>
-:root{color-scheme:dark;--lime:#cefa62;--bg:#101210;--panel:#1a1d19;--line:#373c32;--muted:#b4b9ad}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f4f5ee;font:16px Inter,system-ui,sans-serif}main{max-width:650px;margin:auto;padding:28px 18px 80px}header,.row,.item{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}h1{font-size:clamp(32px,8vw,54px);letter-spacing:-.06em;margin:0}h2{font-size:21px;letter-spacing:-.035em;margin:0 0 14px}section,details.form{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:14px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stats section:first-child{background:var(--lime);color:#162006}.stats b{display:block;font-size:40px;letter-spacing:-.06em}.stats small{font-size:14px}.sub,small,p{color:var(--muted)}.stats section:first-child small{color:#354420}button,summary{cursor:pointer}button,input,select{font:inherit;border-radius:12px;border:1px solid var(--line);padding:10px;background:#242820;color:#fff;max-width:100%}button{min-height:44px}button.active,.primary{background:var(--lime);color:#152005}.item{padding:10px 0;border-top:1px solid var(--line);overflow-wrap:anywhere}.item img{width:78px;height:68px;object-fit:cover;border-radius:8px}.item span{flex:1;min-width:115px}.item small{display:block}form{display:grid;gap:12px;margin-top:15px}label{display:grid;gap:5px;font-size:14px;color:var(--muted)}input,select{width:100%}header input{width:auto}.nums,.set{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.set{border-top:1px solid var(--line);padding-top:10px}.wide,.last{grid-column:1/-1}.last{color:var(--lime);font-size:14px}summary{font-weight:650;padding:4px}.habits{display:flex;gap:6px;flex-wrap:wrap}#message{position:sticky;top:4px;z-index:2;background:#383c2b;border-radius:10px;padding:8px}#message:empty{display:none}button:disabled,fieldset:disabled{opacity:.5}fieldset{border:0;padding:0;margin:0;min-width:0}#mode{font-size:13px;margin:4px 0 14px}</style>
+:root{color-scheme:dark;--lime:#cefa62;--bg:#101210;--panel:#1a1d19;--line:#373c32;--muted:#b4b9ad}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f4f5ee;font:16px Inter,system-ui,sans-serif}main{max-width:650px;margin:auto;padding:28px 18px 80px}header,.row,.item{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}h1{font-size:clamp(32px,8vw,54px);letter-spacing:-.06em;margin:0}h2{font-size:21px;letter-spacing:-.035em;margin:0 0 14px}section,details.form{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:14px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stats section:first-child{background:var(--lime);color:#162006}.stats b{display:block;font-size:40px;letter-spacing:-.06em}.stats small{font-size:14px}.sub,small,p{color:var(--muted)}.stats section:first-child small{color:#354420}button,summary{cursor:pointer}button,input,select{font:inherit;border-radius:12px;border:1px solid var(--line);padding:10px;background:#242820;color:#fff;max-width:100%}button{min-height:44px}button.active,.primary{background:var(--lime);color:#152005}.item{padding:10px 0;border-top:1px solid var(--line);overflow-wrap:anywhere}.item img{width:78px;height:68px;object-fit:cover;border-radius:8px}.item span{flex:1;min-width:115px}.item small{display:block}form{display:grid;gap:12px;margin-top:15px}label{display:grid;gap:5px;font-size:14px;color:var(--muted)}input,select{width:100%}header input{width:auto}.nums,.set{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.set{border-top:1px solid var(--line);padding-top:10px}.wide,.last{grid-column:1/-1}.last{color:var(--lime);font-size:14px}summary{font-weight:650;padding:4px}.habits{display:flex;gap:6px;flex-wrap:wrap}#message{position:sticky;top:4px;z-index:2;background:#383c2b;border-radius:10px;padding:8px}#message:empty{display:none}button:disabled,fieldset:disabled{opacity:.5}fieldset{border:0;padding:0;margin:0;min-width:0}#mode{font-size:13px;margin:4px 0 14px}
+:root{--bg:#101314;--panel:#1a2021;--line:#354043;--muted:#b0bcba;--lime:#c7fa75}body{background:radial-gradient(ellipse at 90% 0,#24322b 0,transparent 26rem),var(--bg)}main{padding-bottom:calc(105px + env(safe-area-inset-bottom))}header{align-items:center}header h1{font-size:37px}header input{font-size:14px}.hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#273d32,#172521);padding:23px;border-color:#425746}.hero:after{content:"";position:absolute;right:-60px;top:-66px;width:210px;height:210px;border:16px solid #bcf47424;box-shadow:0 0 0 12px #bcf4740d,0 0 0 29px #bcf47413;border-radius:50%;pointer-events:none}.hero>*{position:relative;z-index:1}.hero h2{font-size:30px;max-width:85%;margin:12px 0 6px}.hero small{color:var(--lime);font-weight:700}.hero p{margin:8px 0 17px}.stats section:first-child{background:var(--panel);color:var(--lime)}.stats section:first-child small{color:var(--muted)}.stats b{font-size:32px}.stats section{padding:14px}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,650px);z-index:4;background:#151b1bf5;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px 5px calc(6px + env(safe-area-inset-bottom))}.nav button{border:0;background:none;color:var(--muted);border-radius:12px;font-size:13px}.nav button.active{background:#28372b;color:var(--lime)}.nav b{display:block;font-size:19px}.grid7{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;text-align:center;margin:10px 0}.grid7 small{font-size:12px}.grid7 button{position:relative;padding:5px 1px 12px;min-height:43px;border:0;font-size:15px}.grid7 button.chosen{outline:2px solid var(--lime)}.grid7 button[data-mark]:after{position:absolute;content:attr(data-mark);bottom:0;left:0;right:0;font-size:10px;color:var(--lime)}.chips{display:flex;flex-wrap:wrap;gap:6px}.chips button{font-size:14px}.trend{display:flex;align-items:end;gap:4px;height:82px;margin:12px 0}.trend i{display:block;flex:1;background:var(--lime);border-radius:4px 4px 0 0;min-height:5px}.metricrow{padding:10px 0;border-bottom:1px solid var(--line)}.metricrow small{display:block;margin-top:4px}[hidden]{display:none!important}.form{padding:12px!important}.nav button:focus-visible,button:focus-visible{outline:2px solid #fff}
+</style>
 <main><header><h1>Мой день<span style="color:var(--lime)">.</span></h1><input type="date" id="day" aria-label="Дата дневника"></header><p id="mode"></p><div id="message" role="status"></div>
-<fieldset id="panel" disabled><div class="stats"><section><small>Питание · ккал</small><b id="energy">0</b><small id="macros"></small></section><section><small>Тренировки · мин</small><b id="minutes">0</b><small id="sessions"></small></section></div>
-<section><h2>Забота о себе</h2><div id="habits" class="habits"></div></section>
-<section><h2>Питание</h2><div id="meals"></div><details class="form"><summary>＋ Блюдо или продукт</summary><form id="food"><label>Что ела или планируешь?<input name="name" placeholder="Например, омлет с овощами" maxlength="180"></label><label>Заметка<input name="note" placeholder="Порция, продукты или пара слов" maxlength="500"></label><label>Фото<input type="file" name="photo" accept="image/*"></label><div class="nums" id="nutrition"></div><label>Добавить в<select name="status"><option value="eaten">Дневник питания</option><option value="planned">Меню на выбранную дату</option></select></label><button class="primary">Сохранить блюдо</button></form></details></section>
-<section><h2>Тренировки</h2><div id="workouts"></div><details class="form"><summary>＋ Записать тренировку</summary><form id="training"><label>Вид тренировки<input name="activity" required placeholder="Силовая, ходьба, йога…" maxlength="120"></label><label>Длительность, мин<input type="number" name="duration" required min="1" max="1440"></label><div id="sets"></div><datalist id="names"></datalist><button type="button" id="addSet">＋ Подход</button><button class="primary">Сохранить тренировку</button></form></details></section></fieldset></main>
+<fieldset id="panel" disabled><div id="home"><section class="hero"><small id="streak"></small><h2 id="agenda"></h2><p id="dailyQuote"></p><button type="button" id="heroAction" class="primary"></button></section><div class="stats"><section><small>Питание · ккал</small><b id="energy">0</b><small id="macros"></small></section><section><small>Тренировки · мин</small><b id="minutes">0</b><small id="sessions"></small></section></div>
+<section><h2>Моя неделя</h2><div class="grid7" id="week"></div><small>● по плану　✓ выполнено</small></section><section><h2>Забота о себе</h2><div id="habits" class="habits"></div></section>
+</div><div id="diet" hidden><section><h2>Питание</h2><p>Добавь блюдо на выбранную дату или запланируй его заранее.</p><h3>Идеи блюд</h3><div class="chips" id="ideas"></div><div id="recentMeals"></div><div id="meals"></div><details class="form"><summary>＋ Блюдо или продукт</summary><form id="food"><label>Что ела или планируешь?<input name="name" placeholder="Например, омлет с овощами" maxlength="180"></label><label>Заметка<input name="note" placeholder="Порция, продукты или пара слов" maxlength="500"></label><label>Фото<input type="file" name="photo" accept="image/*"></label><div class="nums" id="nutrition"></div><label>Добавить в<select name="status"><option value="eaten">Дневник питания</option><option value="planned">Меню на выбранную дату</option></select></label><button class="primary">Сохранить блюдо</button></form></details></section>
+</div><div id="calendar" hidden><section><div class="row"><button id="prev" aria-label="Предыдущий месяц">‹</button><h2 id="month"></h2><button id="next" aria-label="Следующий месяц">›</button></div><div id="grid" class="grid7"></div><small>● запланировано　✓ выполнено</small></section><section><h2 id="scheduleTitle"></h2><p id="scheduleText"></p><details class="form" id="planning"><summary>Изменить расписание</summary><form id="planForm"><label>Тренировка<input required maxlength="120" name="title" placeholder="Например, силовая"></label><div class="nums"><label>Время<input type="time" name="clock"></label><label>Повтор<select name="repeat"><option value="rhythm">Через день</option><option value="plan">Только эта дата</option></select></label></div><button class="primary">Сохранить план</button></form></details><div class="chips" id="planActions"></div></section><section><h2>Журнал тренировки</h2><div id="workouts"></div><details class="form"><summary>＋ Записать тренировку</summary><form id="training"><label>Вид тренировки<input name="activity" required placeholder="Силовая, ходьба, йога…" maxlength="120"></label><label>Длительность, мин<input type="number" name="duration" required min="1" max="1440"></label><div id="sets"></div><datalist id="names"></datalist><button type="button" id="addSet">＋ Подход</button><button class="primary">Сохранить тренировку</button></form></details></section></div><div id="progress" hidden><section><h2>Мои замеры</h2><label>Показатель<select id="metric"></select></label><div id="trendBox"></div></section><section><h2>Замер на выбранную дату</h2><form id="measureForm"><div class="nums" id="metrics"></div><button class="primary">Сохранить замеры</button></form></section><section><h2>История замеров</h2><div id="timeline"></div></section></div><nav class="nav" id="nav" aria-label="Разделы"></nav></fieldset></main>
 <script>
 const $=id=>document.getElementById(id);
 const preview=location.protocol==='file:';
 const labels=['Растяжка','Медитация','Уход'];
 const nutrients=[['kcal','Ккал'],['p','Белки, г'],['f','Жиры, г'],['c','Углеводы, г']];
+let overview={events:[],workdays:[]};
 let entries=[],historyMap={},tg,loadedDay='',busy=false;
 function node(tag,value){const n=document.createElement(tag);if(value!==undefined)n.textContent=value;return n}
 function button(text,action){const b=node('button',text);b.type='button';b.onclick=action;return b}
@@ -32,8 +35,8 @@ async function load(){
  for(const d of Object.keys(all).filter(d=>d<day).sort().reverse())
  for(const w of all[d].filter(x=>x.kind==='work'))for(const s of w.sets){
  const k=s.name.trim().toLowerCase();if(!h[k])h[k]={day:d,sets:[]};if(h[k].day===d)h[k].sets.push(s)}
- data={items:all[day]||[],history:h};
- }else data=await api('read',{day});
+ data={items:all[day]||[],history:h}; overview=localOverview(all);
+ }else {const [record, summary]=await Promise.all([api('read',{day}),api('overview',{day})]);if(day!==$('day').value)return;data=record;overview=summary;}
  if(day!==$('day').value)return;
  entries=data.items;historyMap=data.history;loadedDay=day;render();$('message').textContent='';$('panel').disabled=false
  }catch(e){$('message').textContent=e.message}
@@ -41,14 +44,15 @@ async function load(){
 async function save(item){
  if(busy||loadedDay!==$('day').value)return false;busy=true;$('panel').disabled=true;$('day').disabled=true;
  try{
- if(preview){const all=JSON.parse(localStorage.getItem('moy-den-v1')||'{}');all[loadedDay]=[...(all[loadedDay]||[]).filter(x=>x.id!==item.id),item];localStorage.setItem('moy-den-v1',JSON.stringify(all))}
+ if(preview){const all=JSON.parse(localStorage.getItem('moy-den-v1')||'{}');all[loadedDay]=[...(all[loadedDay]||[]).filter(x=>x.id!==item.id&&!(item.kind==='rhythm'&&item.enabled&&x.kind==='plan')),item];localStorage.setItem('moy-den-v1',JSON.stringify(all))}
  else await api('save',{day:loadedDay,item});
- entries=[...entries.filter(x=>x.id!==item.id),item];render();$('message').textContent='Сохранено';return true
+ entries=[...entries.filter(x=>x.id!==item.id),item];updateOverview(item);render();$('message').textContent='Сохранено';return true
  }catch(e){$('message').textContent=e.message;return false}finally{busy=false;$('panel').disabled=false;$('day').disabled=false}
 }
 function render(){
+ renderSections();
  const meals=entries.filter(x=>x.kind==='meal'),work=entries.filter(x=>x.kind==='work'),eaten=meals.filter(x=>x.status==='eaten');
- const sum=k=>Math.round(eaten.reduce((v,x)=>v+Number(x[k]||0),0)*10)/10;
+ const sum=k=>eaten.length&&!eaten.some(x=>x[k]!=null)?'—':Math.round(eaten.reduce((v,x)=>v+Number(x[k]||0),0)*10)/10;
  $('energy').textContent=sum('kcal');$('macros').textContent='Б '+sum('p')+' · Ж '+sum('f')+' · У '+sum('c')+' г';
  $('minutes').textContent=work.reduce((v,x)=>v+x.minutes,0);$('sessions').textContent='Записей: '+work.length;
  $('habits').replaceChildren(...labels.map((name,i)=>{const id='habit-'+i,on=entries.some(x=>x.id===id&&x.done);
@@ -82,6 +86,155 @@ $('food').onsubmit=async e=>{e.preventDefault();const form=e.target, f=new FormD
  if(await save(item)){form.reset();form.parentElement.open=false}
  }catch(err){$('message').textContent=err.message}};
 $('day').onchange=()=>{document.querySelectorAll('form').forEach(f=>f.reset());$('sets').replaceChildren();load()};
+const tabs=[['home','День','◉','Мой день'],['calendar','Календарь','▦','Календарь'],['diet','Питание','◒','Питание'],['progress','Замеры','↗','Мои замеры']];
+const measurements={weight:['Вес','кг'],height:['Рост','см'],waist:['Талия','см'],hips:['Бёдра','см'],chest:['Грудь','см'],thigh:['Бедро','см'],arm:['Плечо','см']};
+const quotes=['Сегодня достаточно одного шага, который ты выберешь сама.','Отдых тоже занимает место в расписании.','Отметь то, на что сегодня нашлись силы.','Можно начать с малого и посмотреть, как пойдёт.'];
+const today=()=>new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Moscow',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+const stamp=d=>Date.parse(d+'T12:00:00Z');
+const iso=t=>new Date(t).toISOString().slice(0,10);
+const DAY=86400000;
+function dateLabel(day,opts={day:'numeric',month:'short',year:'numeric'}){return new Intl.DateTimeFormat('ru',{...opts,timeZone:'UTC'}).format(stamp(day))}
+let tab='home';
+function showTab(id){
+ tab=id;
+ for(const [key,label,icon,title] of tabs){
+  $(key).hidden=key!==id;
+  const b=$('tab-'+key);b.classList.toggle('active',key===id);
+  if(key===id){b.setAttribute('aria-current','page');document.querySelector('h1').textContent=title}else b.removeAttribute('aria-current')
+ }
+ window.scrollTo(0,0)
+}
+for(const [key,label,icon] of tabs){
+ const b=button('',()=>showTab(key));b.id='tab-'+key;const symbol=node('b',icon);symbol.setAttribute('aria-hidden','true');b.append(symbol,label);$('nav').append(b)
+}
+showTab('home');
+function localOverview(all){
+ const events=[],workdays=[];
+ for(const [day,items] of Object.entries(all)){
+  if(items.some(x=>x.kind==='work'))workdays.push(day);
+  for(const item of items)if(['rhythm','plan','measure'].includes(item.kind))events.push({...item,day})
+ }
+ const meals=[];for(const day of Object.keys(all).sort().reverse())for(const e of all[day].slice().reverse())if(e.kind==='meal'&&e.name&&meals.length<6&&!meals.some(x=>x.name===e.name))meals.push(e);
+ return {events,workdays,meals}
+}
+function updateOverview(item){
+ if(item.kind==='meal'&&item.name)overview.meals=[item,...(overview.meals||[]).filter(x=>x.name!==item.name)].slice(0,6);
+ if(item.kind==='rhythm'&&item.enabled)overview.events=overview.events.filter(x=>x.day!==loadedDay||x.kind!=='plan');
+ if(item.kind==='work'&&!overview.workdays.includes(loadedDay))overview.workdays.push(loadedDay);
+ if(['measure','rhythm','plan'].includes(item.kind)){
+  overview.events=overview.events.filter(e=>e.day!==loadedDay||e.id!==item.id);
+  overview.events.push({...item,day:loadedDay})
+ }
+}
+function rhythmAt(day){
+ return overview.events.filter(e=>e.kind==='rhythm'&&e.day<=day).sort((a,b)=>b.day.localeCompare(a.day))[0]
+}
+function planAt(day){
+ const single=overview.events.find(e=>e.kind==='plan'&&e.day===day);
+ if(single)return single.enabled?single:null;
+ const rule=rhythmAt(day);
+ return rule?.enabled&&Math.round((stamp(day)-stamp(rule.day))/DAY)%2===0?rule:null
+}
+function goDate(day){if(busy||!day)return;$('day').value=day;$('day').onchange()}
+function shiftMonth(delta){const d=new Date(stamp(loadedDay));d.setUTCDate(1);d.setUTCMonth(d.getUTCMonth()+delta);goDate(iso(d))}
+$('prev').onclick=()=>shiftMonth(-1);$('next').onclick=()=>shiftMonth(1);
+function calendarView(){
+ const d=new Date(stamp(loadedDay));d.setUTCDate(1);
+ const month=d.getUTCMonth(),grid=$('grid');grid.replaceChildren();
+ $('month').textContent=dateLabel(loadedDay,{month:'long',year:'numeric'});
+ for(const label of ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'])grid.append(node('small',label));
+ for(let i=0;i<(d.getUTCDay()+6)%7;i++)grid.append(node('span'));
+ const done=new Set(overview.workdays);
+ while(d.getUTCMonth()===month){
+  const key=iso(d),b=button(d.getUTCDate(),()=>goDate(key)),p=planAt(key);
+  if(done.has(key))b.dataset.mark='✓';else if(p)b.dataset.mark='●';
+  b.setAttribute('aria-label',dateLabel(key)+(done.has(key)?', выполнено':p?', '+p.name:''));
+  b.classList.toggle('chosen',key===loadedDay);grid.append(b);d.setUTCDate(d.getUTCDate()+1)
+ }
+ const plan=planAt(loadedDay),rule=rhythmAt(loadedDay);
+ $('scheduleTitle').textContent=dateLabel(loadedDay,{weekday:'long',day:'numeric',month:'long'});
+ $('scheduleText').textContent=plan?[plan.name,plan.time].filter(Boolean).join(' · '):'Свободный день';
+ const actions=$('planActions');actions.replaceChildren();
+ if(plan){
+  actions.append(button('Записать результат',openWorkout),button('Оставить день свободным',()=>save({kind:'plan',id:'plan',name:plan.name,time:'',enabled:false})))
+ }
+ if(rule?.enabled)actions.append(button('Остановить повтор с этой даты',()=>save({kind:'rhythm',id:'rhythm',name:rule.name,time:'',enabled:false})));
+}
+function openWorkout(){
+ showTab('calendar');const f=$('training');f.parentElement.open=true;f.activity.value=planAt(loadedDay)?.name||f.activity.value;f.scrollIntoView({block:'center'})
+}
+$('planForm').onsubmit=async e=>{
+ e.preventDefault();const f=e.target,kind=f.repeat.value;
+ const item={kind,id:kind,name:f.elements.namedItem("title").value.trim(),time:f.clock.value,enabled:true};
+ if(!item.name)return;
+ if(await save(item))$('planning').open=false
+};
+function weekStart(day){const t=stamp(day);return t-((new Date(t).getUTCDay()+6)%7)*DAY}
+function streak(){
+ const dates=overview.workdays.filter(d=>d<=today()),weeks=new Set(dates.map(weekStart));
+ let w=weekStart(today()),n=0;if(!weeks.has(w))w-=7*DAY;
+ while(weeks.has(w)){n++;w-=7*DAY}return n
+}
+function homeView(){
+ const strip=$('week'),start=weekStart(loadedDay);strip.replaceChildren();for(const w of ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'])strip.append(node('small',w));
+ for(let i=0;i<7;i++){
+  const day=iso(start+i*DAY),b=button(Number(day.slice(-2)),()=>{showTab('calendar');goDate(day)});
+  b.classList.toggle('chosen',day===loadedDay);
+  if(overview.workdays.includes(day))b.dataset.mark='✓';else if(planAt(day))b.dataset.mark='●';
+  b.setAttribute('aria-label',dateLabel(day));strip.append(b)
+ }
+ const p=planAt(loadedDay),done=entries.some(e=>e.kind==='work');
+ $('streak').textContent='Недель подряд с тренировкой: '+streak();
+ $('agenda').textContent=done?'Тренировка записана':p?[p.name,p.time].filter(Boolean).join(' · '):'Твой свободный день';
+ $('dailyQuote').textContent=quotes[Math.floor(stamp(loadedDay)/DAY)%quotes.length];
+ $('heroAction').textContent=done?'Открыть журнал':p?'Записать результат':'Открыть расписание';
+ $('heroAction').onclick=p&&!done?openWorkout:()=>showTab('calendar')
+}
+for(const [key,[title,unit]] of Object.entries(measurements)){
+ const option=node('option',title);option.value=key;$('metric').append(option);
+ field($('metrics'),title+', '+unit,key,{type:'number',step:'0.1',min:0.1,max:1000,placeholder:'—'})
+}
+function measurementView(){
+ const rows=overview.events.filter(e=>e.kind==='measure'&&e.day<=loadedDay).sort((a,b)=>a.day.localeCompare(b.day));
+ const key=$('metric').value,[title,unit]=measurements[key],points=rows.filter(e=>e.values[key]!=null),box=$('trendBox');box.replaceChildren();
+ if(!points.length)box.append(node('p','Первый замер станет точкой отсчёта.'));
+ else{
+  const first=points[0],last=points.at(-1),delta=+(last.values[key]-first.values[key]).toFixed(1);
+  box.append(node('h2',last.values[key]+' '+unit),node('small','Старт: '+first.values[key]+' '+unit+' · '+dateLabel(first.day)));
+  if(points.length>1){
+   box.append(node('p','Изменение от старта: '+(delta>0?'+':'')+delta+' '+unit));
+   const recent=points.slice(-12),values=recent.map(e=>e.values[key]),low=Math.min(...values),high=Math.max(...values);
+   const chart=node('div');chart.className='trend';chart.setAttribute('aria-label',title+' по последним замерам');
+   recent.forEach(e=>{const bar=node('i');bar.style.height=(high===low?50:15+85*(e.values[key]-low)/(high-low))+'%';bar.title=dateLabel(e.day)+' · '+e.values[key]+' '+unit;chart.append(bar)});box.append(chart,node('small',dateLabel(recent[0].day)+' — '+dateLabel(last.day)))
+  }
+ }
+ const current=rows.find(e=>e.day===loadedDay);
+ for(const k of Object.keys(measurements))$('measureForm').elements[k].value=current?.values[k]??'';
+ const timeline=$('timeline');timeline.replaceChildren();
+ for(const e of rows.slice().reverse()){const row=node('div',dateLabel(e.day));row.className='metricrow';row.append(node('small',Object.entries(e.values).map(([k,v])=>measurements[k][0]+': '+v+' '+measurements[k][1]).join(' · ')),button('Открыть',()=>goDate(e.day)));timeline.append(row)}
+ if(!rows.length)timeline.append(node('small','Пока нет записей до этой даты.'))
+}
+$('metric').onchange=measurementView;
+$('measureForm').onsubmit=async e=>{
+ e.preventDefault();const values={};
+ for(const key of Object.keys(measurements)){const v=e.target.elements[key].value;if(v!=='')values[key]=Number(v)}
+ if(!Object.keys(values).length){$('message').textContent='Введи хотя бы один замер.';return}
+ await save({id:'measure',kind:'measure',values})
+};
+for(const dish of ['Йогурт с ягодами','Омлет с овощами','Курица с рисом','Творог с фруктами']){
+ $('ideas').append(button(dish,()=>{const f=$('food');f.reset();f.parentElement.open=true;f.elements.namedItem("name").value=dish;f.elements.note.focus()}))
+}
+function recentMealsView(){
+ const box=$('recentMeals');box.replaceChildren();if(!overview.meals?.length)return;
+ box.append(node('h3','Повторить своё блюдо'));const chips=node('div');chips.className='chips';box.append(chips);
+ for(const meal of overview.meals)chips.append(button(meal.name,()=>{
+  const f=$('food');f.reset();f.parentElement.open=true;f.elements.namedItem('name').value=meal.name;
+  nutrients.forEach(([key])=>f.elements[key].value=meal[key]??'');f.elements.note.focus()
+ }))
+}
+function renderSections(){homeView();calendarView();measurementView();recentMealsView()}
+
 if(preview){$('mode').textContent='Локальный просмотр · записи на этом устройстве';load()}
 else {const s=node('script');s.src='https://telegram.org/js/telegram-web-app.js';s.onload=()=>{tg=window.Telegram.WebApp;tg.ready();tg.expand();if(tg.isVersionAtLeast('7.7'))tg.disableVerticalSwipes();load()};s.onerror=()=>{$('message').textContent='Не удалось подключиться к Telegram. Открой дневник заново.'};document.head.append(s)}
 </script></html>
+

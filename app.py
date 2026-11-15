@@ -2,12 +2,14 @@ import hashlib
 import hmac
 import json
 import os
+import re
 import sqlite3
 import threading
 import time
 from contextlib import closing
 from datetime import date
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from math import isfinite
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import parse_qsl
@@ -32,6 +34,51 @@ def authorized(raw):
             and str(json.loads(fields["user"])["id"]) == OWNER)
     except (KeyError, TypeError, ValueError):
         return False
+
+
+METRICS = {"weight", "height", "chest", "waist", "hips", "thigh", "arm"}
+
+
+def validate(item):
+    kind = item["kind"]
+    if kind == "measure":
+        values = item["values"]
+        if item["id"] != "measure" or not isinstance(values, dict) or not values or not values.keys() <= METRICS:
+            raise ValueError()
+        if not all(type(v) in (int, float) and isfinite(v) and 0 < v <= 1000 for v in values.values()):
+            raise ValueError()
+    if kind in ("rhythm", "plan"):
+        if item["id"] != kind or not isinstance(item["name"], str) or not 0 < len(item["name"].strip()) <= 120:
+            raise ValueError()
+        if item["time"] and not re.fullmatch(r"(?:[01]\d|2[0-3]):[0-5]\d", item["time"]):
+            raise ValueError()
+        if type(item["enabled"]) is not bool:
+            raise ValueError()
+
+
+def overview(conn):
+    rows = conn.execute("""
+        SELECT day,kind,body FROM items
+        WHERE kind IN ('rhythm','plan','measure') ORDER BY day
+    """)
+    events = [{"day": day, **json.loads(body)} for day, _, body in rows]
+    workouts = [r[0] for r in conn.execute(
+        "SELECT DISTINCT day FROM items WHERE kind='work' ORDER BY day")]
+    meals = []
+    seen = set()
+    rows = conn.execute("""
+        SELECT json_extract(body,'$.name'), json_extract(body,'$.kcal'),
+               json_extract(body,'$.p'), json_extract(body,'$.f'), json_extract(body,'$.c')
+        FROM items WHERE kind='meal' ORDER BY day DESC,rowid DESC LIMIT 100
+    """)
+    for name, kcal, protein, fat, carbs in rows:
+        normalized = (name or "").strip().casefold()
+        if normalized and normalized not in seen:
+            meals.append(dict(name=name, kcal=kcal, p=protein, f=fat, c=carbs))
+            seen.add(normalized)
+        if len(meals) == 6:
+            break
+    return {"events": events, "workdays": workouts, "meals": meals}
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -61,7 +108,9 @@ class Handler(BaseHTTPRequestHandler):
             entry = json.loads(self.rfile.read(size))
             day = date.fromisoformat(entry["day"]).isoformat()
             with closing(sqlite3.connect(DB, timeout=8)) as conn, conn:
-                if self.path == "/read":
+                if self.path == "/overview":
+                    result = overview(conn)
+                elif self.path == "/read":
                     rows = conn.execute("SELECT body FROM items WHERE day=? ORDER BY rowid", (day,))
                     items = [json.loads(r[0]) for r in rows]
                     rows = conn.execute("SELECT day,body FROM items WHERE kind='work' AND day<? ORDER BY day DESC,rowid DESC", (day,))
@@ -76,10 +125,13 @@ class Handler(BaseHTTPRequestHandler):
                 elif self.path == "/save":
                     item = entry["item"]
                     ident, kind = item["id"], item["kind"]
-                    if kind not in ("meal","work","habit") or not isinstance(ident,str) or len(ident)>100:
+                    if kind not in ("meal","work","habit","measure","plan","rhythm") or not isinstance(ident,str) or len(ident)>100:
                         raise ValueError()
                     if kind == "work" and not all(isinstance(s["name"],str) for s in item["sets"]):
                         raise ValueError()
+                    validate(item)
+                    if kind == "rhythm" and item["enabled"]:
+                        conn.execute("DELETE FROM items WHERE day=? AND kind='plan'", (day,))
                     conn.execute("INSERT INTO items VALUES (?,?,?,?) ON CONFLICT(day,id) DO UPDATE SET body=excluded.body WHERE items.kind=excluded.kind", (day,ident,kind,json.dumps(item,ensure_ascii=False)))
                     result = {}
                 else:
@@ -131,6 +183,8 @@ if __name__ == "__main__":
     DB.parent.mkdir(parents=True, exist_ok=True)
     with closing(sqlite3.connect(DB)) as conn:
         conn.execute("CREATE TABLE IF NOT EXISTS items(day TEXT,id TEXT,kind TEXT,body TEXT,PRIMARY KEY(day,id))")
+        conn.execute("CREATE INDEX IF NOT EXISTS by_kind_day ON items(kind,day)")
     if TOKEN:
         threading.Thread(target=bot, daemon=True).start()
     ThreadingHTTPServer(("0.0.0.0", int(os.getenv("PORT","8080"))), Handler).serve_forever()
+
