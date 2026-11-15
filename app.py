@@ -101,6 +101,8 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if urlsplit(self.path).path == "/":
             self.reply(200, PAGE.read_bytes(), "text/html; charset=utf-8")
+        elif self.path in {"/art/hero.webp", "/art/diet.webp", "/art/calendar.webp", "/art/progress.webp"}:
+            self.reply(200, (PAGE.parent / self.path.lstrip("/")).read_bytes(), "image/webp")
         elif self.path == "/health":
             self.reply(200, b'{"ok":true}')
         else:
@@ -230,6 +232,7 @@ if __name__ == "__main__":
     if TOKEN:
         threading.Thread(target=bot, daemon=True).start()
     ThreadingHTTPServer(("0.0.0.0", int(os.getenv("PORT","8080"))), Handler).serve_forever()
+
 
 
 
